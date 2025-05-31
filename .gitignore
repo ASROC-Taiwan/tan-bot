@@ -1,0 +1,7 @@
+.env
+.envrc
+.direnv
+.venv
+content
+build
+tanbot.egg-info/
