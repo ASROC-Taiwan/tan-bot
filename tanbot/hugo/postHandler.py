@@ -45,7 +45,7 @@ class PostHandler:
     def generate_posts(self):
         df = self.df
 
-        all_posts = glob.glob(os.path.join(self.post_dir, '*.md'))
+        all_posts = glob.glob(os.path.join(self.post_dir, '*.zh.md'))
         last_post = None
         if len(all_posts) == 0:
             print("No posts found in the directory. Generate all posts from the data.")
@@ -91,8 +91,8 @@ class PostHandler:
             f.write(f'title: "{post.title}"\n')
             f.write(f"date: {post.date}\n")
             f.write(f"draft: {str(post.draft).lower()}\n")
-            f.write(f"author: {post.author}\n")
-            f.write(f'summary: "{post.summary}"\n')
+            #f.write(f"author: {post.author}\n")
+            #f.write(f'summary: "{post.summary}"\n')
             f.write(f"---\n\n")
             f.write(post.content)
         print(f"Post {post.filename} written successfully.")
@@ -114,7 +114,7 @@ class PostHandler:
         date = time.strftime('%Y-%m-%dT%H:%M:%S', timestamp)
         
         # Create the filename
-        filename = f"{date}-{msg_id}.md"
+        filename = f"{date}-{msg_id}.zh.md"
 
         post = HugoPost(
             title=subject,
