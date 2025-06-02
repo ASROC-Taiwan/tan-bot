@@ -56,9 +56,9 @@ class PostHandler:
             last_post = all_posts[0] # is the latest post filename
             print(f"Latest post found: {last_post}")
             # find the datatime of the latest post from the filename
-            last_datetime = last_post.split('/')[-1].split('-')[0:3]
+            last_datetime = last_post.split('/')[-1].split('-')[0:1]
             last_datetime = '-'.join(last_datetime)
-            last_datetime = time.strptime(last_datetime, '%Y-%m-%dT%H:%M:%S')
+            last_datetime = time.strptime(last_datetime, '%Y_%m_%d_%H_%M_%S')
 
         # iterate through the DataFrame to find the latest post
         has_updated = False
@@ -114,7 +114,11 @@ class PostHandler:
         date = time.strftime('%Y-%m-%dT%H:%M:%S', timestamp)
         
         # Create the filename
-        filename = f"{date}-{msg_id}.zh.md"
+        # the date format in the filename better simple, 
+        # we use YYYY_MM_DD_HH_MM_SS-message_id.zh.md
+        filedate = time.strftime('%Y_%m_%d_%H_%M_%S', timestamp)
+
+        filename = f"{filedate}-{msg_id}.zh.md"
 
         post = HugoPost(
             title=subject,
