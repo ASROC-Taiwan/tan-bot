@@ -3,6 +3,7 @@
 .direnv
 .venv
 content
+images
 build
 tanbot.egg-info/
 **/*.pyc

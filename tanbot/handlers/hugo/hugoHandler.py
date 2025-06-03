@@ -3,44 +3,20 @@ import time
 import glob
 import pandas as pd
 from dataclasses import dataclass
+from ..base import Post, BaseHandler
 
 @dataclass
-class HugoPost:
-    title: str
-    date: str
-    author: str
-    summary: str
-    content: str
-    filename: str
-    draft: bool = False
-
-class PostHandler:
+class HugoPost(Post):
+    filename: str = '2025_01_01_00_00_00-00000.zh.md'  # default filename, will be overwritten
+  
+class HugoHandler(BaseHandler):
     def __init__(self, post_dir):
-        self.post_dir = post_dir
-        self._df = None
-
-    def _clean_content(self, content):
         """
-        Clean the footer at the end of the content.
+        Initialize the HugoHandler with the directory to save posts.
+        :param post_dir: The directory where the posts will be saved.
         """
-        if not content:
-            return content
-        parts = content.split('--')
-        if len(parts) > 1:
-            content = '--'.join(parts[:-1])
-        return content.strip()
-    
-    @property
-    def df(self):
-        if self._df is None:
-            raise ValueError("DataFrame is not loaded. Please load the DataFrame first.")
-        return self._df
-    
-    @df.setter
-    def df(self, value):
-        if not isinstance(value, pd.DataFrame):
-            raise ValueError("Value must be a pandas DataFrame.")
-        self._df = value
+        super().__init__(post_dir)
+        return
 
     def generate_posts(self):
         df = self.df
@@ -58,7 +34,7 @@ class PostHandler:
             # find the datatime of the latest post from the filename
             last_datetime = last_post.split('/')[-1].split('-')[0:1]
             last_datetime = '-'.join(last_datetime)
-            last_datetime = time.strptime(last_datetime, '%Y_%m_%d_%H_%M_%S')
+            last_datetime = time.strptime(last_datetime, self.filedate_format)
 
         # iterate through the DataFrame to find the latest post
         has_updated = False
@@ -67,8 +43,7 @@ class PostHandler:
             
             if last_post is not None:
                 # if the post date is earlier than the last post, skip it
-                post_date = time.strptime(post.date, '%Y-%m-%dT%H:%M:%S')
-                #print(f"debug: {last_datetime} vs {post_date}")
+                post_date = time.strptime(post.date, self.date_format)
                 if post_date <= last_datetime:
                     print(f"Skipping post {post.filename} as it is older than the last post.")
                     continue
@@ -96,36 +71,23 @@ class PostHandler:
             f.write(f"---\n\n")
             f.write(post.content)
         print(f"Post {post.filename} written successfully.")
-
+        return
 
     def prepare_a_post(self, row):
         """
         Save a post from a row in the data.
         """
-        timestamp = row['Timestamp']
-        subject = row['Subject']
-        sender = row['Sender']
-        snippet = row['Snippet']
-        content = self._clean_content(row['Full Body'])
-        msg_id = row['Message ID']
-
-        # Convert the str time to a time object
-        timestamp = time.strptime(timestamp, '%m/%d/%Y %H:%M:%S')
-        date = time.strftime('%Y-%m-%dT%H:%M:%S', timestamp)
-        
-        # Create the filename
-        # the date format in the filename better simple, 
-        # we use YYYY_MM_DD_HH_MM_SS-message_id.zh.md
-        filedate = time.strftime('%Y_%m_%d_%H_%M_%S', timestamp)
-
-        filename = f"{filedate}-{msg_id}.zh.md"
+        base_post = super().prepare_a_post(row)
+        filename = f"{base_post.filename_head}.zh.md"
 
         post = HugoPost(
-            title=subject,
-            date=date,
-            author=sender,
-            summary=snippet,
-            content=content,
-            filename=filename
+            title=base_post.title,
+            date=base_post.date,
+            author=base_post.author,
+            summary=base_post.summary,
+            content=base_post.content,
+            filename_head=base_post.filename_head,
+            filename=filename,
+            draft=base_post.draft
         )
         return post

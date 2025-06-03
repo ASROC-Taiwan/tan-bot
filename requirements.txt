@@ -1,5 +1,5 @@
 python-dotenv
 pandas
-instabot
 pillow
 pytest
+instagrapi

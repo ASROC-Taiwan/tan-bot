@@ -1,9 +1,12 @@
 from dotenv import load_dotenv
 import os
 import re
-import glob
 import pandas as pd
-from tanbot.hugo.postHandler import PostHandler as hugo_handler
+from .handlers.hugo.hugoHandler import HugoHandler
+from .handlers.instagram.instagramHandler import InstagramHandler # WIP
+from .handlers.facebook.facebookHandler import FacebookHandler  # WIP
+from .handlers.base import BaseImageHandler # testing purposes
+
 # WIP
 # other handlers can be added here, such as: facebookHandler, instagramHandler, etc.
 
@@ -21,7 +24,8 @@ Maintainer: @asroc-tw @kuochuanpan
 """
 class TANBot:
     def __init__(self, path="./", 
-                       rel_path_to_hugo="content/tan/tan-bot"):
+                       rel_path_to_hugo="content/tan/tan-bot",
+                       rel_path_to_image="images"):
         
         self.name = "TAN-bot"
         self.description = "A bot to fetch data from Google Sheets."
@@ -29,7 +33,13 @@ class TANBot:
         # set the path to be the TANBot object's path
         self.path = os.path.abspath(path)
         self.hugo_post_path = os.path.join(self.path, rel_path_to_hugo)
-        self.hugo = hugo_handler(self.hugo_post_path)
+        self.image_path = os.path.join(self.path, rel_path_to_image)
+
+        # 
+        self.hugo = HugoHandler(self.hugo_post_path)
+        self.instagram = InstagramHandler(self.image_path)  # WIP, for future use
+        self.facebook = FacebookHandler(self.image_path)  # WIP, for future use
+        self.image = BaseImageHandler(self.image_path)  # for testing purposes
 
         # get the VERSION from __init_.py
         with open(os.path.join(os.path.dirname(__file__), '__init__.py'), 'r') as f:
@@ -58,6 +68,9 @@ class TANBot:
         try:
             self.df = pd.read_csv(self.csv_url)
             self.hugo.df = self.df  # Set the DataFrame in the hugo handler
+            self.instagram.df = self.df  # Set the DataFrame in the Instagram handler
+            self.facebook.df = self.df  # Set the DataFrame in the Facebook handler
+            self.image.df = self.df  # Set the DataFrame in the image handler for testing purposes
             print(f"Data loaded successfully from {self.csv_url}")
         except Exception as e:
             raise RuntimeError(f"Failed to load Google Sheet data: {e}")
