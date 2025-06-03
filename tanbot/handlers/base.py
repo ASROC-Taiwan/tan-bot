@@ -184,7 +184,7 @@ class BaseImageHandler(BaseHandler):
         font_title = ImageFont.truetype(str(base_font), fontsize*1.3)
         font_subtitle = ImageFont.truetype(str(base_font), int(fontsize * 1.1))
 
-        # draw a tiltle on the image
+        # draw a title on the image
         title = "TAN-bot Post"
         subtilte = "Taiwan Astronomy Network"
         draw.text(
