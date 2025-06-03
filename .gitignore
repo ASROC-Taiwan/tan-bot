@@ -5,3 +5,7 @@
 content
 build
 tanbot.egg-info/
+**/*.pyc
+**/__pycache__/
+**/.DS_Store
+
