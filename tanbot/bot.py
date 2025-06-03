@@ -3,6 +3,8 @@ import os
 import re
 import pandas as pd
 from .handlers.hugo.hugoHandler import HugoHandler
+from .handlers.instagram.instagramHandler import InstagramHandler # WIP
+from .handlers.facebook.facebookHandler import FacebookHandler  # WIP
 from .handlers.base import BaseImageHandler # testing purposes
 
 # WIP
@@ -32,7 +34,11 @@ class TANBot:
         self.path = os.path.abspath(path)
         self.hugo_post_path = os.path.join(self.path, rel_path_to_hugo)
         self.image_path = os.path.join(self.path, rel_path_to_image)
+
+        # 
         self.hugo = HugoHandler(self.hugo_post_path)
+        self.instagram = InstagramHandler(self.image_path)  # WIP, for future use
+        self.facebook = FacebookHandler(self.image_path)  # WIP, for future use
         self.image = BaseImageHandler(self.image_path)  # for testing purposes
 
         # get the VERSION from __init_.py
@@ -62,6 +68,8 @@ class TANBot:
         try:
             self.df = pd.read_csv(self.csv_url)
             self.hugo.df = self.df  # Set the DataFrame in the hugo handler
+            self.instagram.df = self.df  # Set the DataFrame in the Instagram handler
+            self.facebook.df = self.df  # Set the DataFrame in the Facebook handler
             self.image.df = self.df  # Set the DataFrame in the image handler for testing purposes
             print(f"Data loaded successfully from {self.csv_url}")
         except Exception as e:

@@ -3,3 +3,4 @@ pandas
 instabot
 pillow
 pytest
+instagrapi

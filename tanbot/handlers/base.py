@@ -156,6 +156,12 @@ class BaseImageHandler(BaseHandler):
             print(f"Created directory {self.post_dir}.")
 
         filepath = os.path.join(self.post_dir, post.filename)
+
+        # if the file already exists, we skip it
+        if os.path.exists(filepath):
+            print(f"File {filepath} already exists, skipping.")
+            return
+
         print(f"Writing image post to {filepath}...")
         # Here you would implement the logic to save the image post
         # For now, we just print the filepath
@@ -201,7 +207,7 @@ class BaseImageHandler(BaseHandler):
         for line in message:
             # draw the text on the image
             draw.text(
-                (width * 0.1, height * 0.6 + 1.2 * fontsize * message.index(line)),  # position the text at the top left corner
+                (width * 0.1, height * 0.55 + 1.2 * fontsize * message.index(line)),  # position the text at the top left corner
                 line,
                 font=font_subtitle,
                 fill=(0, 0, 0)  # black color for the text
