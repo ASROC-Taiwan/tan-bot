@@ -196,7 +196,7 @@ class BaseImageHandler(BaseHandler):
         # draw a subtitle on the image
         draw.text(
             (width * 0.32, height * 0.14),  # position the title at the top left corner
-            subtilte,
+            subtitle,
             font=font_subtitle,
             fill=(0, 0, 0)  # black color for the title
         )
