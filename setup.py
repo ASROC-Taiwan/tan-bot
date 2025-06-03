@@ -27,6 +27,10 @@ setup(
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     packages=find_packages(),
+    package_data={
+        'tanbot': ['resources/images/*.png', 'resources/fonts/*.ttf'],
+    },
+    include_package_data=True,
     install_requires=read_requirements("requirements.txt"),
     keywords=['tanbot', 'bot', 'google sheets'],
     classifiers=[
