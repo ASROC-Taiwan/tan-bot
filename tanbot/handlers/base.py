@@ -186,7 +186,7 @@ class BaseImageHandler(BaseHandler):
 
         # draw a tiltle on the image
         title = "TAN-bot Post"
-        sub_tilte = "Taiwan Astronomy Network"
+        subtilte = "Taiwan Astronomy Network"
         draw.text(
             (width * 0.38, height * 0.06),  # position the title at the top left corner
             title,
@@ -196,7 +196,7 @@ class BaseImageHandler(BaseHandler):
         # draw a subtitle on the image
         draw.text(
             (width * 0.32, height * 0.14),  # position the title at the top left corner
-            sub_tilte,
+            subtilte,
             font=font_subtitle,
             fill=(0, 0, 0)  # black color for the title
         )
