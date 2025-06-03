@@ -111,7 +111,7 @@ class InstagramHandler(BaseImageHandler):
         password = os.getenv("IG_PASSWORD")
 
         try:
-            cl.load_settings("./instagram_sssion.json")
+            cl.load_settings("./instagram_session.json")
         except FileNotFoundError:
             cl.login(username, password)
             cl.dump_settings("./instagram_session.json")
