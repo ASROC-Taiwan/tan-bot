@@ -204,10 +204,10 @@ class BaseImageHandler(BaseHandler):
         # we only draw the email subject on the image as the message
         message = textwrap.wrap(post.title, 32)
 
-        for line in message:
+        for index, line in enumerate(message):
             # draw the text on the image
             draw.text(
-                (width * 0.1, height * 0.55 + 1.2 * fontsize * message.index(line)),  # position the text at the top left corner
+                (width * 0.1, height * 0.55 + 1.2 * fontsize * index),  # position the text at the top left corner
                 line,
                 font=font_subtitle,
                 fill=(0, 0, 0)  # black color for the text
