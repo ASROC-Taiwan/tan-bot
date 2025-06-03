@@ -186,7 +186,7 @@ class BaseImageHandler(BaseHandler):
 
         # draw a title on the image
         title = "TAN-bot Post"
-        subtilte = "Taiwan Astronomy Network"
+        subtitle = "Taiwan Astronomy Network"
         draw.text(
             (width * 0.38, height * 0.06),  # position the title at the top left corner
             title,
