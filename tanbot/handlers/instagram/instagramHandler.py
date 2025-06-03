@@ -94,7 +94,7 @@ class InstagramHandler(BaseImageHandler):
         """
         Publish a post to Instagram.
         
-        NOTE: Instgram does not allow bot to publish posts.
+        NOTE: Instagram does not allow bot to publish posts.
               We need to be careful with the policy of Instagram.
         """
         self.write_image_post(post)
