@@ -50,7 +50,47 @@ class InstagramHandler(BaseImageHandler):
         )
         return instagram_post
 
-    def poblish_a_post(self, post):
+    def generate_posts(self, publish=False):
+        df = self.df
+        all_posts = glob.glob(os.path.join(self.image_dir, "*.png"))
+        last_post = None
+        if len(all_posts)==0:
+            print("No posts found in the image directory.")
+        else:
+            all_posts.sort(reverse=True)
+            last_post = all_posts[0]
+            last_datetime = last_post.split('/')[-1].split('-')[0:1]
+            last_datetime = '-'.join(last_datetime)
+            last_datetime = time.strptime(last_datetime, self.filedate_format)
+
+        has_updated = False
+        for index, row in df.iterrows():
+            post = self.prepare_a_post(row)
+
+            if last_post is not None:
+                post_date = time.strptime(post.date, self.date_format)
+                if post_date <= last_datetime:
+                    print(f"Skipping post {post.filename} as it is older than the last post.")
+                    continue
+            self.write_image_post(post)
+            if publish:
+                self.publish_a_post(post)
+            else:
+                # delete the image file
+                filepath = os.path.join(self.image_dir, post.filename)
+                if os.path.exists(filepath):
+                    os.remove(filepath)
+                    print(f"Post {post.filename} removed from the image directory.")
+                else:
+                    print(f"Post {post.filename} does not exist in the image directory.")
+            print(f"Post {post.filename} prepared and published.")
+            # if polished, delay for a while
+            time.sleep(3)
+
+            has_updated = True
+        return has_updated
+
+    def publish_a_post(self, post):
         """
         Publish a post to Instagram.
         
@@ -63,8 +103,6 @@ class InstagramHandler(BaseImageHandler):
         if post.draft:
             print(f"Post {post.filename} is a draft, skipping publication.")
             return
-        
-        # TODO: we need a way to check if the post has already been published
         
         # Connect to Instagram and publish the post
         cl = Client()

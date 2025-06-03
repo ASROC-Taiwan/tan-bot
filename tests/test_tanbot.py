@@ -31,9 +31,9 @@ def test_base_image_handler():
 
     # test draw images
     df = image_handler.df
-    for _, row in df.iterrows():
-        post = image_handler.prepare_a_post(row)
-        image_handler.write_image_post(post)
+    #for _, row in df.iterrows():
+    #    post = image_handler.prepare_a_post(row)
+    #    image_handler.write_image_post(post)
 
 # test instagramHandler
 def test_instagram_handler():
@@ -49,10 +49,7 @@ def test_instagram_handler():
     assert not instagram_handler.df.empty, "DataFrame in Instagram handler should not be empty"
 
     # test draw images
-    df = instagram_handler.df
-    for _, row in df.iterrows():
-        post = instagram_handler.prepare_a_post(row)
-        #instagram_handler.posblish_a_post(post)
+    has_updated = bot.instagram.generate_posts(publish=False)
 
 
 # test facebookHandler
