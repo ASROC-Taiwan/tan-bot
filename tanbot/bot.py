@@ -82,7 +82,7 @@ class TANBot:
 
     def broadcast(self, line=True, instagram=False, facebook=False):
         """
-        Breadcase new posts from HugoHandler to other handlers.
+        Broadcast new posts from HugoHandler to other handlers.
         """
         new_posts = self.hugo.new_posts
         if len(new_posts) == 0:
