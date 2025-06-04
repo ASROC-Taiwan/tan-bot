@@ -7,7 +7,7 @@ from ..base import Post, BaseHandler
 
 @dataclass
 class HugoPost(Post):
-    filename: str = '2025_01_01_00_00_00-00000.zh.md'  # default filename, will be overwritten
+    filename: str = '2025_01_01_00_00_00-00000.zh-Hant.md'  # default filename, will be overwritten
   
 class HugoHandler(BaseHandler):
     def __init__(self, post_dir):
@@ -21,7 +21,7 @@ class HugoHandler(BaseHandler):
     def generate_posts(self):
         df = self.df
 
-        all_posts = glob.glob(os.path.join(self.post_dir, '*.zh.md'))
+        all_posts = glob.glob(os.path.join(self.post_dir, '*.zh-Hant.md'))
         last_post = None
         if len(all_posts) == 0:
             print("No posts found in the directory. Generate all posts from the data.")
@@ -78,7 +78,7 @@ class HugoHandler(BaseHandler):
         Save a post from a row in the data.
         """
         base_post = super().prepare_a_post(row)
-        filename = f"{base_post.filename_head}.zh.md"
+        filename = f"{base_post.filename_head}.zh-Hant.md"
 
         post = HugoPost(
             title=base_post.title,
