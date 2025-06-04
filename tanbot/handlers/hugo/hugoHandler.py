@@ -16,7 +16,15 @@ class HugoHandler(BaseHandler):
         :param post_dir: The directory where the posts will be saved.
         """
         super().__init__(post_dir)
+        self._new_post = []
         return
+    
+    @property
+    def new_posts(self):
+        """
+        Return the new posts that have been generated.
+        """
+        return self._new_post
 
     def generate_posts(self):
         df = self.df
@@ -48,6 +56,7 @@ class HugoHandler(BaseHandler):
                     print(f"Skipping post {post.filename} as it is older than the last post.")
                     continue
             self.write_post(post)
+            self._new_post.append(post)
             has_updated = True
         return has_updated
 

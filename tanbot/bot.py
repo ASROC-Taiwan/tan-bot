@@ -6,6 +6,7 @@ from .handlers.hugo.hugoHandler import HugoHandler
 from .handlers.instagram.instagramHandler import InstagramHandler # WIP
 from .handlers.facebook.facebookHandler import FacebookHandler  # WIP
 from .handlers.base import BaseImageHandler # testing purposes
+from .handlers.line.linebotHandler import LinebotHandler
 
 # WIP
 # other handlers can be added here, such as: facebookHandler, instagramHandler, etc.
@@ -25,6 +26,7 @@ Maintainer: @asroc-tw @kuochuanpan
 class TANBot:
     def __init__(self, path="./", 
                        rel_path_to_hugo="content/tan/tan-bot",
+                       rel_path_to_line="linebot",
                        rel_path_to_image="images"):
         
         self.name = "TAN-bot"
@@ -33,10 +35,12 @@ class TANBot:
         # set the path to be the TANBot object's path
         self.path = os.path.abspath(path)
         self.hugo_post_path = os.path.join(self.path, rel_path_to_hugo)
+        self.line_post_path = os.path.join(self.path, rel_path_to_line)
         self.image_path = os.path.join(self.path, rel_path_to_image)
 
         # 
         self.hugo = HugoHandler(self.hugo_post_path)
+        self.line = LinebotHandler(self.line_post_path)  # for testing purposes
         self.instagram = InstagramHandler(self.image_path)  # WIP, for future use
         self.facebook = FacebookHandler(self.image_path)  # WIP, for future use
         self.image = BaseImageHandler(self.image_path)  # for testing purposes
@@ -68,13 +72,33 @@ class TANBot:
         try:
             self.df = pd.read_csv(self.csv_url)
             self.hugo.df = self.df  # Set the DataFrame in the hugo handler
+            self.line.df = self.df  # Set the DataFrame in the LINE handler for testing purposes
             self.instagram.df = self.df  # Set the DataFrame in the Instagram handler
             self.facebook.df = self.df  # Set the DataFrame in the Facebook handler
             self.image.df = self.df  # Set the DataFrame in the image handler for testing purposes
-            print(f"Data loaded successfully from {self.csv_url}")
+            print(f"Data loaded successfully.")
         except Exception as e:
             raise RuntimeError(f"Failed to load Google Sheet data: {e}")
-        
+
+    def broadcast(self, line=True, instagram=False, facebook=False):
+        """
+        Broadcast new posts from HugoHandler to other handlers.
+        """
+        new_posts = self.hugo.new_posts
+        if len(new_posts) == 0:
+            print("No new posts to broadcast.")
+            return      
+        if instagram:
+            # Note: Instagram broadcasting is not allowed by Instagram's API.
+            raise NotImplementedError("Instagram broadcasting is not implemented yet.")
+        if facebook:
+            # Note: Facebook fan-page auto post is not implmented yet.
+            raise NotImplementedError("Facebook broadcasting is not implemented yet.")
+        if line:
+            for post in new_posts:
+                # WIP: Implement the LINE broadcasting logic here
+                self.line.broadcast_a_hugo_post(post)
+            
 
 if __name__ == "__main__":
 
