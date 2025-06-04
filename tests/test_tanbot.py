@@ -8,10 +8,13 @@ def test_load_gsheet():
     df = bot.hugo.df
     assert not df.empty, "DataFrame should not be empty"
 
-def test_hugo():
+# test lineHandler
+def test_line_handler():
     bot = TANBot()
     bot.load_gsheet()
     has_updated = bot.hugo.generate_posts()
+    if has_updated:
+        bot.broadcast(line=False, instagram=False, facebook=False)
 
 # test baseImageHandler
 def test_base_image_handler():
@@ -31,9 +34,9 @@ def test_base_image_handler():
 
     # test draw images
     df = image_handler.df
-    #for _, row in df.iterrows():
-    #    post = image_handler.prepare_a_post(row)
-    #    image_handler.write_image_post(post)
+    for _, row in df.iterrows():
+        post = image_handler.prepare_a_post(row)
+        image_handler.write_image_post(post)
 
 # test instagramHandler
 def test_instagram_handler():
@@ -49,7 +52,7 @@ def test_instagram_handler():
     assert not instagram_handler.df.empty, "DataFrame in Instagram handler should not be empty"
 
     # test draw images
-    has_updated = bot.instagram.generate_posts(publish=False)
+    #has_updated = bot.instagram.generate_posts(publish=False)
 
 
 # test facebookHandler

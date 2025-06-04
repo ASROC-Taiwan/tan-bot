@@ -17,6 +17,7 @@ jobs:
     env:
       SHEET_ID: ${{ secrets.SHEET_ID }}
       WORKSHEET_GID: ${{ secrets.WORKSHEET_GID }}
+      LINE_TOKEN: ${{ secrets.LINE_TOKEN }}
 
     steps:
     - name: Checkout code
