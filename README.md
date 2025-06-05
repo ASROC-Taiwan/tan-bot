@@ -14,6 +14,7 @@ pip install .
 ```
 SHEET_ID=<the sheet id>
 WORKSHEET_GID=<the worksheet gid>
+LINE_TOKEN=<the line message api token>
 ```
 
 2. Use the following code to generate Hugo posts:

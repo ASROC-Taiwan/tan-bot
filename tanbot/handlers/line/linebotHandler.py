@@ -127,6 +127,9 @@ def get_flex_message(title, content, post_url="", img_url="https://asroc-taiwan.
 
     
 def get_flex_message2(title, content, post_url="", img_url="https://asroc-taiwan.github.io/website/img/tan-banner.jpeg"):
+    """
+    reference: https://developers.line.biz/flex-simulator/
+    """
     data = {
         "messages": [
         {
