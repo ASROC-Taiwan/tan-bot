@@ -73,7 +73,7 @@ class HugoHandler(BaseHandler):
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(f"---\n")
             f.write(f'title: "{post.title}"\n')
-            f.write(f"date: {post.date}\n")
+            f.write(f"date: {post.date}+08:00\n") # ensure it's GMT+8
             f.write(f"draft: {str(post.draft).lower()}\n")
             #f.write(f"author: {post.author}\n")
             #f.write(f'summary: "{post.summary}"\n')
