@@ -69,10 +69,11 @@ class HugoHandler(BaseHandler):
             os.makedirs(self.post_dir)
             print(f"Created directory {self.post_dir}.")
 
+        title = post.title.replace('"', '\\"')  # Escape double quotes in title
         filepath = os.path.join(self.post_dir, post.filename)
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(f"---\n")
-            f.write(f'title: "{post.title}"\n')
+            f.write(f'title: "{title}"\n')
             f.write(f"date: {post.date}+08:00\n") # ensure it's GMT+8
             f.write(f"draft: {str(post.draft).lower()}\n")
             #f.write(f"author: {post.author}\n")
